@@ -7,17 +7,16 @@ conversation memory persistence.
 
 from contextlib import asynccontextmanager
 
+from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
+from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
 from psycopg import AsyncConnection
 from psycopg.rows import DictRow, dict_row
 from psycopg_pool import AsyncConnectionPool
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import create_async_engine
 
-from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
-from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
-
-from src.shared.schemas.universal_discovery import UniversalDiscovery
 from src.core.settings import settings
+from src.shared.schemas.universal_discovery import UniversalDiscovery
 from src.utils.log_wrapper import get_logger, log_execution
 
 POOL_CONNECTION_STRING = settings.DATABASE_URL

@@ -6,10 +6,10 @@ a tool or reply directly.
 """
 
 from src.services.prompts.registry import prompt_registry
-from src.utils.log_wrapper import log_execution, get_logger
 from src.services.states.graph_state import GraphState
-from src.utils.llm_factory import get_model
 from src.services.tools import tools
+from src.utils.llm_factory import get_model
+from src.utils.log_wrapper import get_logger, log_execution
 
 
 @log_execution
@@ -39,8 +39,6 @@ async def chatbot_node(state: GraphState) -> GraphState:
 
     if response.tool_calls:
         for tool_call in response.tool_calls:
-            logger.info(
-                f"🛠️ [TOOL CALL]: {tool_call['name']} with args: {tool_call['args']}"
-            )
+            logger.info(f"🛠️ [TOOL CALL]: {tool_call['name']} with args: {tool_call['args']}")
 
     return state

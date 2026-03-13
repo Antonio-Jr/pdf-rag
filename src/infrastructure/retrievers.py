@@ -6,9 +6,9 @@ user and optional metadata filters, for similarity-based document search.
 
 from langchain_postgres.vectorstores import PGVector
 
-from src.utils.log_wrapper import log_execution
 from src.core.settings import settings
 from src.utils.embedding_factory import get_embeddings
+from src.utils.log_wrapper import log_execution
 
 
 @log_execution

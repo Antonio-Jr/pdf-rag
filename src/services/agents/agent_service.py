@@ -8,8 +8,8 @@ they are generated.
 from langchain_core.runnables import RunnableConfig
 
 from src.infrastructure.database import get_checkpointer
-from src.utils.log_wrapper import log_execution, get_logger
 from src.services.graphs.document_graph import generate_graph
+from src.utils.log_wrapper import get_logger, log_execution
 
 
 @log_execution
@@ -32,9 +32,7 @@ async def analyze_query(user_input: str, thread_id: str, user_id: str):
     checkpointer = get_checkpointer()
     graph = generate_graph().compile(checkpointer=checkpointer)
 
-    config = RunnableConfig(
-        {"configurable": {"thread_id": thread_id, "user_id": user_id}}
-    )
+    config = RunnableConfig({"configurable": {"thread_id": thread_id, "user_id": user_id}})
 
     initial_state = {
         "messages": [("user", user_input)],

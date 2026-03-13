@@ -4,15 +4,15 @@ Loads PDF files, splits them into overlapping text chunks, attaches
 user-scoped metadata, and stores the resulting embeddings in PGVector.
 """
 
-from typing import Dict, Any
+from typing import Any, Dict
 
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_postgres.vectorstores import PGVector
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from src.utils.log_wrapper import get_logger, log_execution
 from src.core.settings import settings
 from src.utils.embedding_factory import get_embeddings
+from src.utils.log_wrapper import get_logger, log_execution
 
 
 class IngestionService:
@@ -83,9 +83,7 @@ class IngestionService:
                 create_extension=False,
             )
 
-            logger.info(
-                f"Successfully ingested {len(chunks)} chunks into {self.collection_name}"
-            )
+            logger.info(f"Successfully ingested {len(chunks)} chunks into {self.collection_name}")
             return len(chunks)
         except Exception as e:
             logger.error(f"Critical error during ingestion pipeline: {str(e)}")

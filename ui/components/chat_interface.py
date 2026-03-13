@@ -5,6 +5,7 @@ the assistant's streaming response with a live status indicator.
 """
 
 import streamlit as st
+
 from ui.services.api_client import APIClient
 
 
@@ -51,9 +52,7 @@ def handle_assistant_response(api_client: APIClient, prompt: str, thread_id: str
 
                     def stream_generator():
                         """Yield decoded text chunks from the streaming response."""
-                        for chunk in stream.iter_content(
-                            chunk_size=None, decode_unicode=True
-                        ):
+                        for chunk in stream.iter_content(chunk_size=None, decode_unicode=True):
                             if chunk:
                                 yield chunk
 

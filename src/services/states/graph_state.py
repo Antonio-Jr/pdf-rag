@@ -5,7 +5,7 @@ LangGraph state graph, carrying messages, user context, discovery
 results, extracted data, and conversation summaries.
 """
 
-from typing import List, Annotated, Dict, Any
+from typing import Annotated, Any, Dict, List
 
 from langchain_core.messages import BaseMessage
 from langgraph.graph import add_messages

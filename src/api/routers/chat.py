@@ -7,9 +7,10 @@ text stream.
 
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
+
 from src.api.schemas.query import ChatQuery
-from src.utils.log_wrapper import log_execution
 from src.services.agents.agent_service import analyze_query
+from src.utils.log_wrapper import log_execution
 
 router = APIRouter(prefix="/chat", tags=["chat"])
 

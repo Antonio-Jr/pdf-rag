@@ -5,11 +5,13 @@ renders the sidebar and chat interface, and handles the main
 chat input loop with streaming assistant responses.
 """
 
-import streamlit as st
 import uuid
-from services.api_client import APIClient
-from components.sidebar import render_sidebar
+
+import streamlit as st
 from components.chat_interface import render_chat_history
+from components.sidebar import render_sidebar
+from services.api_client import APIClient
+
 from ui.components.chat_interface import handle_assistant_response
 
 st.set_page_config(page_title="Document Intel", page_icon="📄")

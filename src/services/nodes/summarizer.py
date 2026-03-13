@@ -5,11 +5,12 @@ keep the context window manageable while preserving important
 information across turns.
 """
 
+from langchain_core.prompts import MessagesPlaceholder
+
 from src.services.prompts.registry import prompt_registry
-from src.utils.log_wrapper import log_execution
 from src.services.states.graph_state import GraphState
 from src.utils.llm_factory import get_model
-from langchain_core.prompts import MessagesPlaceholder
+from src.utils.log_wrapper import log_execution
 
 MINIMUM_MESSAGES_TO_SUMMARIZE = 7
 

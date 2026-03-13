@@ -5,15 +5,14 @@ total size, PDF-only), persists them temporarily, runs the ingestion
 pipeline, and cleans up temporary files afterward.
 """
 
+import os
+import shutil
 from pathlib import Path
 
-from fastapi import APIRouter, UploadFile, File, HTTPException, Form
+from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 
-import shutil
-import os
-
-from src.utils.log_wrapper import log_execution
 from src.services.ingestion.ingestion_service import IngestionService
+from src.utils.log_wrapper import log_execution
 
 router = APIRouter(prefix="/upload", tags=["upload"])
 service = IngestionService()

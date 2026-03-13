@@ -6,9 +6,11 @@ keyed by ``(category, prompt_name)``.  Prompt data is converted to
 LangChain ``ChatPromptTemplate`` instances on retrieval.
 """
 
-import yaml
 from pathlib import Path
+
+import yaml
 from langchain_core.prompts import ChatPromptTemplate
+
 from src.utils.log_wrapper import get_logger
 
 logger = get_logger(__name__)
@@ -57,9 +59,7 @@ class PromptRegistry:
                     with open(yaml_file, "r", encoding="utf-8") as f:
                         self._prompts[category][prompt_name] = yaml.safe_load(f)
 
-        logger.info(
-            f"🏛️ Prompt Registry loaded categories: {list(self._prompts.keys())}"
-        )
+        logger.info(f"🏛️ Prompt Registry loaded categories: {list(self._prompts.keys())}")
 
     def get_prompt(self, category: str, name: str) -> ChatPromptTemplate:
         """Retrieve a prompt template by category and name.

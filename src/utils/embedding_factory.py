@@ -9,8 +9,8 @@ from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_ollama import OllamaEmbeddings
 
-from src.utils.log_wrapper import log_execution
 from src.core.settings import settings
+from src.utils.log_wrapper import log_execution
 
 
 @log_execution

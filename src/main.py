@@ -11,7 +11,7 @@ from fastapi import FastAPI
 
 from src.api.routers.chat import router as chat_router
 from src.api.routers.upload import router as upload_router
-from src.infrastructure.database import build_checkpoint, init_database, async_pool
+from src.infrastructure.database import async_pool, build_checkpoint, init_database
 from src.utils.logging_config import setup_logging
 
 logger = logging.getLogger(__name__)

@@ -4,9 +4,10 @@ Wraps ``requests`` calls to the FastAPI backend, providing methods
 for health checks, file uploads, and streaming chat interactions.
 """
 
-import os
-import requests
 import logging
+import os
+
+import requests
 
 logger = logging.getLogger(__name__)
 
@@ -35,9 +36,7 @@ class APIClient:
         try:
             return requests.get(f"{self.base_url}/health", timeout=2).status_code == 200
         except Exception as e:
-            logger.error(
-                f"ERROR: Something went wrong when trying to check API health: {e}"
-            )
+            logger.error(f"ERROR: Something went wrong when trying to check API health: {e}")
             return False
 
     def upload_files(self, files, user_id):

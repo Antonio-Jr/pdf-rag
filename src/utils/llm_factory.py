@@ -7,8 +7,8 @@ Ollama, and OpenAI providers via a unified interface.
 
 from langchain.chat_models import init_chat_model
 
-from src.utils.log_wrapper import log_execution
 from src.core.settings import settings
+from src.utils.log_wrapper import log_execution
 
 
 @log_execution

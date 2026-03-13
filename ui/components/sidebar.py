@@ -38,8 +38,7 @@ def render_sidebar(api_client: APIClient, thread_id: str):
             if uploaded_files:
                 with st.spinner("Uploading..."):
                     files = [
-                        ("files", (f.name, f.read(), "application/pdf"))
-                        for f in uploaded_files
+                        ("files", (f.name, f.read(), "application/pdf")) for f in uploaded_files
                     ]
                     response = api_client.upload_files(files, thread_id)
                     if response.status_code == 200:
