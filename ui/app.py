@@ -8,11 +8,10 @@ chat input loop with streaming assistant responses.
 import uuid
 
 import streamlit as st
-from components.chat_interface import render_chat_history
-from components.sidebar import render_sidebar
-from services.api_client import APIClient
 
-from ui.components.chat_interface import handle_assistant_response
+from ui.components.chat_interface import handle_assistant_response, render_chat_history
+from ui.components.sidebar import render_sidebar
+from ui.services.api_client import APIClient
 
 st.set_page_config(page_title="Document Intel", page_icon="📄")
 
