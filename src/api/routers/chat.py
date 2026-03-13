@@ -45,4 +45,4 @@ async def chat(payload: ChatQuery):
         )
 
     except Exception:
-        return HTTPException(500, detail="Internal Agent Error")
+        raise HTTPException(500, detail="Internal Agent Error")

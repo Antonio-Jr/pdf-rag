@@ -75,11 +75,15 @@ async def upload_files(user_id: str = Form(...), files: list[UploadFile] = File(
             "chunks": chunks_created,
             "files": [f.filename for f in files],
         }
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Ingestion failed: {str(e)}")
 
     finally:
         for file in files:
+            if not file.filename:
+                continue
             file_path = Path(f"{TEMP_STORAGE}/{file.filename}")
-            if file_path.exists():
+            if file_path.exists() and file_path.is_file():
                 os.remove(file_path)
