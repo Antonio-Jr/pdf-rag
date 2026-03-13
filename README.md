@@ -37,35 +37,35 @@ Unlike simple "chat with your PDF" demos, this project implements a **multi-step
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                         Streamlit UI (:8501)                           │
-│                   Chat Interface + File Upload                         │
+│                         Streamlit UI (:8501)                            │
+│                   Chat Interface + File Upload                          │
 └───────────────────────────────┬─────────────────────────────────────────┘
                                 │  HTTP / Streaming
 ┌───────────────────────────────▼─────────────────────────────────────────┐
 │                        FastAPI Backend (:8000)                          │
-│  ┌──────────┐  ┌──────────┐  ┌────────────┐                           │
-│  │ /chat    │  │ /upload  │  │ /health    │                            │
-│  └────┬─────┘  └────┬─────┘  └────────────┘                           │
-│       │              │                                                  │
-│  ┌────▼──────────────▼──────────────────────────────────────────┐      │
-│  │                   LangGraph Agent                             │      │
-│  │                                                               │      │
-│  │   START → Chatbot ──(tool call?)──→ Tools → Chatbot          │      │
-│  │               │                                    │          │      │
-│  │               └──(no tools)──→ Summarizer → END    │          │      │
-│  │                                                               │      │
-│  │   Tools:                                                      │      │
-│  │   ├── 🔍 Discovery Tool (document understanding)              │      │
-│  │   └── 📊 Extraction Tool (structured data retrieval)          │      │
-│  └──────────────────────────────────────────────────────────────┘      │
+│  ┌──────────┐  ┌──────────┐  ┌────────────┐                             │
+│  │ /chat    │  │ /upload  │  │ /health    │                             │
+│  └────┬─────┘  └────┬─────┘  └────────────┘                             │
+│       │             │                                                   │
+│  ┌────▼─────────────▼──────-────────────────────────────────────┐       │  
+│  │                   LangGraph Agent                            │       │
+│  │                                                              │       │
+│  │   START → Chatbot ──(tool call?)──→ Tools → Chatbot          │       │
+│  │               │                                    │         │       │
+│  │               └──(no tools)──→ Summarizer → END  <─          │       │
+│  │                                                              │       │
+│  │   Tools:                                                     │       │
+│  │   ├── 🔍 Discovery Tool (document understanding)             │       │
+│  │   └── 📊 Extraction Tool (structured data retrieval)         │       │
+│  └──────────────────────────────────────────────────────────────┘       │
 │                          │                                              │
 └──────────────────────────┼──────────────────────────────────────────────┘
                            │
 ┌──────────────────────────▼──────────────────────────────────────────────┐
-│                    PostgreSQL + pgvector (:5432)                         │
+│                    PostgreSQL + pgvector (:5432)                        │
 │  ┌─────────────────────┐  ┌──────────────────────────┐                  │
-│  │   Vector Store       │  │   LangGraph Checkpoints   │                │
-│  │   (document chunks)  │  │   (conversation memory)   │                │
+│  │   Vector Store      │  │   LangGraph Checkpoints  │                  │
+│  │   (document chunks) │  │   (conversation memory)  │                  │
 │  └─────────────────────┘  └──────────────────────────┘                  │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
