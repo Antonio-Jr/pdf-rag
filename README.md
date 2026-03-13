@@ -246,39 +246,56 @@ Once running:
 
 ---
 
-## 🔧 Development
+## 💎 Professional-Grade Highlights
 
-### Local Setup (without Docker)
+This project goes beyond a standard RAG demo by implementing engineering best practices required for production-grade AI systems:
 
+- **100% Code Coverage** — Every line of the backend logic is verified through a rigorous suite of unit and integration tests.
+- **Hermetic Testing** — All external dependencies (LLMs, Databases, API calls) are strictly mocked using `pytest-mock`, ensuring the test suite is fast, deterministic, and can run without any internet connection.
+- **Multi-Stage Docker Architecture** — Optimized build process with distinct stages for `base` dependencies, `tester` validation, and a slim `production` runtime.
+- **Type Safety & Linting** — Comprehensive type hinting and strict linting via `ruff`, integrated into the developer workflow.
+- **Structured AI Outputs** — Utilizes Pydantic schemas for guaranteed structured data extraction from LLMs.
+
+---
+
+## 🛠️ Developer Experience (DX)
+
+The project includes a comprehensive `Makefile` to streamline development and automate repetitive tasks.
+
+| Command | Action |
+|---------|--------|
+| `make install` | Full installation (uv sync + pre-commit setup) |
+| `make test` | Run the complete test suite locally with coverage report |
+| `make docker-test`| Run all tests inside a clean Docker `tester` stage |
+| `make run-api` | Start the FastAPI backend with hot-reload |
+| `make run-ui` | Start the Streamlit frontend with project-root context |
+| `make docker-up` | Spin up the entire production-ready stack in background |
+| `make docker-db-up`| Start **only** the database for local isolated development |
+| `make lint` | Run ruff check and format validation |
+
+---
+
+## 🧪 Testing & Quality Assurance
+
+Quality is not an afterthought. This project maintains a **100% test coverage** policy across the core `src` directory.
+
+### Running Tests Locally
 ```bash
-# Install uv (if not already installed)
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Install dependencies
-uv sync
-
-# Start a local PostgreSQL with pgvector
-docker compose up db -d
-
-# Run the API
-uv run uvicorn src.main:app --reload --port 8000
-
-# Run the UI (in another terminal)
-uv run streamlit run ui/app.py
+make test
 ```
 
-### Code Quality
-
+### Running Tests in Docker
+To ensure a clean, isolated environment identical to CI/CD:
 ```bash
-# Lint
-uv run ruff check .
-
-# Auto-fix lint issues
-uv run ruff check --fix .
-
-# Format
-uv run ruff format .
+make docker-test
 ```
+
+### Coverage Report Showcase
+The test suite validates:
+- **Agent Logic**: Graph routing, state transitions, and tool triggers.
+- **RAG Integrity**: Vector retrieval filters and ingestion pipeline edge cases.
+- **API Resilience**: Lifespan management, health checks, and error handling.
+- **Infrastructure**: Database initialization and checkpointer stability.
 
 ---
 
