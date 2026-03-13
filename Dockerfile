@@ -1,7 +1,11 @@
+# ---------------------------------------------------
 # Stage 1: Fetch the uv binary
+# ---------------------------------------------------
 FROM ghcr.io/astral-sh/uv:latest AS uv_bin
 
+# ---------------------------------------------------
 # Stage 2: Base environment with dependencies
+# ---------------------------------------------------
 FROM python:3.12-slim AS base
 
 WORKDIR /src
