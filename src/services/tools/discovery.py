@@ -1,3 +1,11 @@
+"""Document discovery tool for initial document understanding.
+
+Retrieves user-scoped documents from the vector store, feeds their
+content to the LLM with a structured output schema, and returns a
+JSON-serialized ``UniversalDiscovery`` describing the document's
+purpose, key entities, trackable data points, and tone.
+"""
+
 import json
 from typing import Annotated
 
@@ -16,7 +24,8 @@ from src.utils.llm_factory import get_model
 async def discovery_document_tool(
     query: str, user_id: Annotated[str, InjectedState("user_id")]
 ) -> str:
-    """
+    """Discover and summarize the structure of uploaded documents.
+
     REQUIRED for initial contact with new documents.
     Accesses the database of resumes and PDFs uploaded by the user.
     Use whenever the user mentions that they 'uploaded a file', 'made an upload'
@@ -31,12 +40,12 @@ async def discovery_document_tool(
 
     if not docs:
         logger.warning(f"⚠️ No docs found for the user_id: {user_id}")
-        return "Sorry, I did not found any information in the docs you have sent previously."
+        return "Sorry, I did not find any information in the docs you have sent previously."
 
     content = "\n\n".join([doc.page_content for doc in docs])
 
     if not content.strip():
-        return "I found the docs, but they are not seem to be a text legible."
+        return "I found the docs, but they do not seem to contain legible text."
 
     model = get_model(structured_schema=UniversalDiscovery)
     prompt = prompt_registry.get_prompt("tools", "discovery")

@@ -1,3 +1,11 @@
+"""Prompt template registry backed by YAML files.
+
+Implements a singleton that scans the ``prompts/`` directory tree on
+first access, loading every ``.yaml`` file into a nested dictionary
+keyed by ``(category, prompt_name)``.  Prompt data is converted to
+LangChain ``ChatPromptTemplate`` instances on retrieval.
+"""
+
 import yaml
 from pathlib import Path
 from langchain_core.prompts import ChatPromptTemplate
@@ -7,6 +15,25 @@ logger = get_logger(__name__)
 
 
 class PromptRegistry:
+    """Singleton registry that loads and serves prompt templates from YAML.
+
+    Folder structure expected under the ``prompts/`` directory::
+
+        prompts/
+        ├── nodes/
+        │   ├── chatbot.yaml
+        │   └── summarizer.yaml
+        └── tools/
+            ├── discovery.yaml
+            └── extraction.yaml
+
+    Each YAML file may contain ``system`` and/or ``human`` keys whose
+    values are the prompt text strings.
+
+    Attributes:
+        _prompts: Nested dictionary ``{category: {name: data}}``.
+    """
+
     _instance = None
     _prompts = {}
 
@@ -17,18 +44,16 @@ class PromptRegistry:
         return cls._instance
 
     def _load_all_prompts(self):
-        """Varre a pasta prompts e carrega todos os YAMLs em um dicionário aninhado."""
+        """Scan the prompts directory and load all YAML files into memory."""
         base_path = Path(__file__).parent
 
-        # Itera sobre subpastas (nodes, tools, etc)
         for folder in base_path.iterdir():
             if folder.is_dir() and not folder.name.startswith("__"):
                 category = folder.name
                 self._prompts[category] = {}
 
-                # Itera sobre arquivos .yaml na pasta
                 for yaml_file in folder.glob("*.yaml"):
-                    prompt_name = yaml_file.stem  # chatbot, discovery, etc.
+                    prompt_name = yaml_file.stem
                     with open(yaml_file, "r", encoding="utf-8") as f:
                         self._prompts[category][prompt_name] = yaml.safe_load(f)
 
@@ -37,7 +62,19 @@ class PromptRegistry:
         )
 
     def get_prompt(self, category: str, name: str) -> ChatPromptTemplate:
-        """Busca o prompt no dicionário carregado."""
+        """Retrieve a prompt template by category and name.
+
+        Args:
+            category: Top-level grouping (e.g. ``"nodes"``, ``"tools"``).
+            name: Prompt identifier within the category (e.g. ``"chatbot"``).
+
+        Returns:
+            A ``ChatPromptTemplate`` built from the YAML ``system`` and
+            ``human`` message entries.
+
+        Raises:
+            KeyError: If no prompt matches the given category and name.
+        """
         data = self._prompts.get(category, {}).get(name, {})
 
         if not data:

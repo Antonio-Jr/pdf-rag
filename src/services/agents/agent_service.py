@@ -1,3 +1,10 @@
+"""Agent service for streaming document analysis.
+
+Compiles the LangGraph document graph with a checkpointer and
+streams LLM events back to the caller, yielding text tokens as
+they are generated.
+"""
+
 from langchain_core.runnables import RunnableConfig
 
 from src.infrastructure.database import get_checkpointer
@@ -7,6 +14,20 @@ from src.services.graphs.document_graph import generate_graph
 
 @log_execution
 async def analyze_query(user_input: str, thread_id: str, user_id: str):
+    """Stream an AI response for a user query against uploaded documents.
+
+    Compiles the document analysis graph with the active checkpointer,
+    then iterates over streamed LLM events to yield text content
+    incrementally.
+
+    Args:
+        user_input: The user's natural-language question.
+        thread_id: Conversation thread identifier for memory continuity.
+        user_id: Identifier used to scope document retrieval.
+
+    Yields:
+        Text fragments (strings) as they are produced by the chat model.
+    """
     logger = get_logger(__name__)
     checkpointer = get_checkpointer()
     graph = generate_graph().compile(checkpointer=checkpointer)
@@ -39,5 +60,5 @@ async def analyze_query(user_input: str, thread_id: str, user_id: str):
                         yield block
 
         elif kind == "on_tool_start":
-            logger.info(f"  \n> 🔍 *Pesquisando nos documentos de {user_id}...* \n")
-            logger.info(f"\n[⚙️ Executando: {event['name']}]\n")
+            logger.info(f"  \n> 🔍 *Searching documents for {user_id}...* \n")
+            logger.info(f"\n[⚙️ Executing: {event['name']}]\n")

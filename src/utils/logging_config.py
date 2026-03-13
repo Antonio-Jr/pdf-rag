@@ -1,12 +1,26 @@
+"""Centralized logging configuration.
+
+Sets up a consistent logging format for the entire application,
+including timestamp, severity, and module name.  External libraries
+like ``httpx`` and ``openai`` are configured with higher thresholds
+to reduce noise.
+"""
+
 import logging
 import logging.config
 import sys
 
 
 def setup_logging(default_level=logging.INFO):
-    """
-    Centralized logging configuration for the entire application.
-    Ensures consistent formatting across Agents, Runners, and Tools.
+    """Configure the application-wide logging system.
+
+    Applies a ``dictConfig`` that installs a stdout console handler
+    with a standard formatter.  Should be called once during
+    application startup (typically inside the lifespan context).
+
+    Args:
+        default_level: Minimum log level for the root logger.
+                       Defaults to ``logging.INFO``.
     """
     logging_config = {
         "version": 1,
@@ -29,13 +43,11 @@ def setup_logging(default_level=logging.INFO):
             },
         },
         "loggers": {
-            # Root logger
             "": {
                 "handlers": ["console"],
                 "level": default_level,
                 "propagate": True,
             },
-            # Library-specific overrides (silencing noisy external libs)
             "httpx": {
                 "level": "WARNING",
                 "handlers": ["console"],

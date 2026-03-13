@@ -1,3 +1,10 @@
+"""Logging helper utilities.
+
+Provides a convenience logger accessor and a decorator that
+automatically logs the start, success, and failure of both
+synchronous and asynchronous function calls with execution timing.
+"""
+
 import functools
 import inspect
 import logging
@@ -5,10 +12,33 @@ import time
 
 
 def get_logger(name):
+    """Return a stdlib logger for the given module name.
+
+    Args:
+        name: Typically ``__name__`` of the calling module.
+
+    Returns:
+        A ``logging.Logger`` instance.
+    """
     return logging.getLogger(name)
 
 
 def log_execution(func):
+    """Decorator that logs function entry, exit, and errors with timing.
+
+    Automatically detects whether the wrapped function is a coroutine
+    and applies the appropriate async or sync wrapper.
+
+    For synchronous functions, arguments are truncated to 150 characters
+    each to keep log output readable.
+
+    Args:
+        func: The function or coroutine to wrap.
+
+    Returns:
+        The wrapped function with identical signature and metadata.
+    """
+
     @functools.wraps(func)
     async def async_wrapper(*args, **kwargs):
         origin = func.__module__

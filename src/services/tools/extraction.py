@@ -1,3 +1,10 @@
+"""Data extraction tool for structured information retrieval.
+
+Uses the discovery summary and specific tracking points to perform
+a focused search and extract precise values, dates, or clauses from
+user-uploaded documents.
+"""
+
 from typing import Annotated
 
 from langchain_core.tools import tool
@@ -16,8 +23,8 @@ async def extraction_data_tool(
     tracking_points: list[str],
     user_id: Annotated[str, InjectedState("user_id")],
 ) -> str:
-    """
-    Extracts precise and structured data based on specific tracking points.
+    """Extract precise and structured data based on specific tracking points.
+
     Use this tool AFTER discovery to obtain exact values, dates, or clauses.
     """
     if not user_id:
