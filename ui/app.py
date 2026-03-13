@@ -1,3 +1,10 @@
+"""Streamlit application entry point for Document Intelligence.
+
+Initializes session state (API client, message history, thread ID),
+renders the sidebar and chat interface, and handles the main
+chat input loop with streaming assistant responses.
+"""
+
 import streamlit as st
 import uuid
 from services.api_client import APIClient
@@ -6,9 +13,6 @@ from components.chat_interface import render_chat_history
 from ui.components.chat_interface import handle_assistant_response
 
 st.set_page_config(page_title="Document Intel", page_icon="📄")
-
-# with open("ui/styles/custom.css") as f:
-#     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 if "api_client" not in st.session_state:
     st.session_state.api_client = APIClient()

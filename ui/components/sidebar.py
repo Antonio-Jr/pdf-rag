@@ -1,11 +1,28 @@
+"""Sidebar component for the Streamlit UI.
+
+Renders the sidebar panel containing the API health indicator,
+file upload widget, and upload submission button.
+"""
+
 import streamlit as st
 
 from ui.services.api_client import APIClient
 
 
 def render_sidebar(api_client: APIClient, thread_id: str):
+    """Render the application sidebar with status and upload controls.
+
+    Displays the current API health status, a PDF file uploader,
+    and a submit button that triggers the ingestion pipeline via
+    the API client.
+
+    Args:
+        api_client: The API client instance used for health checks
+                    and file uploads.
+        thread_id: User/thread identifier sent with upload requests.
+    """
     with st.sidebar:
-        st.title("📄 Configurations")
+        st.title("⚙️ Configurations")
 
         if api_client.check_health():
             st.success("API Online")
