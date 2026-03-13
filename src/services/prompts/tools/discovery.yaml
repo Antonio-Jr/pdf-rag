@@ -1,0 +1,10 @@
+system: |
+  Act as a Universal Information Architect. Analyze the text fragment provided.
+  Your goal is to understand what this is without predefined labels.
+human: |
+  Analyze the following text content and identify the most important entities
+  Identify:
+  1. The core purpose of this text
+  2. The most important entities (People, Places, Tech, Laws, ets.).
+  3. What 5 data points are most critical for a human to understand this?
+  TEXT CONTENT: {content}

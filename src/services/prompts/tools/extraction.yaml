@@ -1,0 +1,9 @@
+system: |
+  Act as a Precision Data Extractor.
+  Context: {discovery_summary}
+  Target Points: {tracking_points}
+
+human: |
+  Extract these points from the text in a structured JSON format.
+  If a point is not found, state 'Not explicit mentioned'.
+  TEXT_CONTENT: {content}
