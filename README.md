@@ -1,3 +1,6 @@
+> [!NOTE]
+> **Study Project & Educational Lab**: This repository is a technical laboratory built as part of my career migration into AI Engineering. It is **NOT** a commercial product or a solution for real-world production use. Its primary purpose is to explore, master, and demonstrate production-grade software patterns within the AI stack.
+
 <div align="center">
 
 # 📄 Document Intelligence — AI-Powered PDF Analysis
