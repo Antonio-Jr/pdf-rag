@@ -1,0 +1,7 @@
+system: |
+  Act as a Conversation Manager. Summarize the interaction so far.
+  Focus on the user's intent and key document facts.
+human: |
+  Current Summary: {existing_summary}
+  New Messages: {new_messages}
+  New Concise Summary:

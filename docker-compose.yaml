@@ -1,0 +1,58 @@
+services:
+  # --- BANCO DE DADOS (PostgreSQL + pgvector) ---
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: pdf_rag_db
+    restart: always
+    environment:
+      POSTGRES_DB: ${DATABASE_COLLECTION_NAME:-vector_db}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-postgres_pass} # Pega do .env ou usa default
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d vector_db" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # --- BACKEND API (FastAPI + LangGraph) ---
+  api:
+    build: .
+    container_name: pdf_rag_api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://postgres:${DATABASE_PASSWORD:-postgres_pass}@db:5432/${DATABASE_COLLECTION_NAME:-vector_db}
+      - LLM_API_KEY=${LLM_API_KEY}
+      - LLM_BASE_URL=${LLM_BASE_URL}
+      - LLM_PROVIDER=${LLM_PROVIDER}
+      - LLM_MODEL_NAME=${LLM_MODEL_NAME}
+      - LLM_TEMPERATURE=${LLM_TEMPERATURE}
+      - LLM_EMBEDDING_PROVIDER=${LLM_EMBEDDING_PROVIDER}
+      - LLM_EMBEDDING_MODEL=${LLM_EMBEDDING_MODEL}
+      - EXTERNAL_PROMPTS_PATH=/app/external_prompts
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./prompts/external:/app/external_prompts # Para Hot-Reload de prompts
+    command: uv run uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+  # --- FRONTEND (Streamlit) ---
+  ui:
+    build: .
+    container_name: pdf_rag_ui
+    depends_on:
+      - api
+    environment:
+      - API_BASE_URL=http://api:8000
+    ports:
+      - "8501:8501"
+    # Comando correto para o runner do Streamlit
+    command: uv run streamlit run ui/app.py --server.port 8501 --server.address 0.0.0.0
+
+volumes:
+  postgres_data:
