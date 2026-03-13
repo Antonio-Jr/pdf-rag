@@ -66,6 +66,9 @@ class IngestionService:
 
             chunks = text_splitter.split_documents(raw_documents)
 
+            if not chunks:
+                raise ValueError("No text could be extracted from the provided document.")
+
             for chunk in chunks:
                 chunk.metadata["user_id"] = user_id
                 if extra_metadata:
