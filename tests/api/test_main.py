@@ -1,8 +1,9 @@
 """Tests for the main application lifecycle and healthcheck."""
 
-from fastapi.testclient import TestClient
+
 import pytest
-from unittest.mock import AsyncMock, patch
+from fastapi.testclient import TestClient
+
 from src.main import app
 
 
@@ -31,8 +32,9 @@ async def test_lifespan_success(mocker):
     mock_checkpoint_context = mocker.AsyncMock()
     mock_build_checkpoint.return_value = mock_checkpoint_context
 
-    from src.main import lifespan
     from fastapi import FastAPI
+
+    from src.main import lifespan
 
     app_instance = FastAPI()
 
@@ -53,8 +55,9 @@ async def test_lifespan_failure(mocker):
 
     mock_logger = mocker.patch("src.main.logger")
 
-    from src.main import lifespan
     from fastapi import FastAPI
+
+    from src.main import lifespan
 
     app_instance = FastAPI()
 

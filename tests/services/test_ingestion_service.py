@@ -1,13 +1,10 @@
 """Tests for the IngestionService."""
 
-from unittest.mock import MagicMock
 
 import pytest
+from langchain_core.documents import Document
 
 from src.services.ingestion.ingestion_service import IngestionService
-
-
-from langchain_core.documents import Document
 
 
 @pytest.fixture(autouse=True)

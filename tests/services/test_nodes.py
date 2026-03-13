@@ -3,8 +3,7 @@
 from unittest.mock import MagicMock
 
 import pytest
-
-from langchain_core.messages import HumanMessage, AIMessage
+from langchain_core.messages import AIMessage, HumanMessage
 
 from src.services.nodes.chabot_node import chatbot_node
 from src.services.nodes.summarizer import summarizer_node
@@ -128,5 +127,5 @@ async def test_chatbot_node_with_tool_calls(mock_get_model, mocker):
 
     await chatbot_node(initial_state)
     logger_instance.info.assert_called_with(
-        f"🛠️ [TOOL CALL]: extraction_tool with args: {{'points': ['a']}}"
+        "🛠️ [TOOL CALL]: extraction_tool with args: {'points': ['a']}"
     )

@@ -1,6 +1,5 @@
 """Tests for the Prompt Registry."""
 
-from unittest.mock import MagicMock
 
 import pytest
 

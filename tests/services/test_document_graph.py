@@ -1,8 +1,8 @@
 """Tests for the LangGraph routing and structure."""
 
 from langgraph.graph import StateGraph
+
 from src.services.graphs.document_graph import generate_graph
-from src.services.states.graph_state import GraphState
 
 
 def test_generate_graph_structure():
