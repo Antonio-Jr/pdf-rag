@@ -312,6 +312,19 @@ The test suite validates:
 
 ---
 
+## 🎓 Key Learnings & Journey
+
+This project was developed as a deep-dive study into the mechanics of production-grade AI applications. My goal wasn't to solve a niche business problem, but to master the challenging "last 20%" of AI engineering:
+
+- **State Management in Agents**: Deepened my understanding of cyclic state machines using **LangGraph**. Learning how to control loops and conditional edges proved essential for creating reliable agents.
+- **The Value of Hermetic Testing**: Practicing **100% code coverage** taught me how to isolate AI logic from expensive API calls. Mocking LLM streams and Vector DBs ensured the system stays robust under every edge case I could imagine.
+- **Production Mindset for Side-Projects**: Implementing multi-stage Docker builds and a developer-first Makefile made me realize that even "simple study tools" benefit immensely from a clean DevOps foundation.
+- **Structured LLM Interactions**: Moving from raw string parsing to **Pydantic-based structured outputs** was a game-changer for the reliability of the internal tools.
+
+This repo serves as a living laboratory for my growth as an AI Engineer. Feedback and technical discussions are always welcome!
+
+---
+
 ## 📄 License
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
