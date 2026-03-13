@@ -1,0 +1,31 @@
+/* Custom Chat Bubbles */
+.stChatMessage {
+    background-color: transparent !important;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px !important;
+    margin-bottom: 1rem;
+}
+
+/* Assistant glow effect */
+.st-emotion-cache-janm0z {
+    border-left: 5px solid #4CAF50 !important;
+    background-color: #f9fff9 !important;
+}
+
+/* Sidebar styling */
+[data-testid="stSidebar"] {
+    background-color: #f8f9fa;
+    border-right: 1px solid #eee;
+}
+
+/* Thinking/Status indicator */
+.stStatusWidget {
+    border: none !important;
+    background: transparent !important;
+}
+
+/* Botão de Upload customizado */
+.stButton > button {
+    border-radius: 8px;
+    font-weight: 600;
+}
