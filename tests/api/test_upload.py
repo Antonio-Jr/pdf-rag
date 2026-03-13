@@ -9,7 +9,7 @@ from fastapi.testclient import TestClient
 def test_upload_success(client: TestClient, mocker):
     """Test successful document upload and ingestion."""
     mock_service = mocker.patch("src.api.routers.upload.service")
-    
+
     async def mock_ingest(*args, **kwargs):
         return 42
 
@@ -34,16 +34,16 @@ def test_upload_service_error(client: TestClient, mocker):
     """Test the upload endpoint when the ingestion service raises an error."""
     mock_service = mocker.patch("src.api.routers.upload.service")
     mock_service.ingest_data = mocker.AsyncMock(side_effect=Exception("Database down"))
-    
+
     with open("dummy.pdf", "wb") as f:
         f.write(b"%PDF-1.4\n...")
-        
+
     try:
         with open("dummy.pdf", "rb") as pdf_file:
             response = client.post(
                 "/upload/",
                 files=[("files", ("dummy.pdf", pdf_file, "application/pdf"))],
-                data={"user_id": "test_user_789"}
+                data={"user_id": "test_user_789"},
             )
     finally:
         os.remove("dummy.pdf")
@@ -58,9 +58,9 @@ async def test_upload_invalid_content_type(client):
     response = client.post(
         "/upload/",
         files=[("files", ("dummy.txt", b"Hello", "text/plain"))],
-        data={"user_id": "test_user_789"}
+        data={"user_id": "test_user_789"},
     )
-    
+
     assert response.status_code == 400
     assert "Only PDF files are accepted" in response.json()["detail"]
 
@@ -71,9 +71,9 @@ async def test_upload_empty_file(client):
     response = client.post(
         "/upload/",
         files=[("files", ("blank.pdf", b"", "application/pdf"))],
-        data={"user_id": "test_user"}
+        data={"user_id": "test_user"},
     )
-    
+
     assert response.status_code == 500
     assert "Ingestion failed" in response.json()["detail"]
 
@@ -93,9 +93,9 @@ async def test_upload_file_too_large(client):
     # Create an 11MB payload
     large_content = b"0" * (11 * 1024 * 1024)
     response = client.post(
-        "/upload/", 
-        files=[("files", ("large.pdf", large_content, "application/pdf"))], 
-        data={"user_id": "u"}
+        "/upload/",
+        files=[("files", ("large.pdf", large_content, "application/pdf"))],
+        data={"user_id": "u"},
     )
     assert response.status_code == 400
     assert "Maximum total size" in response.json()["detail"]
@@ -105,10 +105,10 @@ async def test_upload_file_too_large(client):
 async def test_upload_missing_filename(mocker):
     """Test upload router gracefully ignores files lacking a filename header."""
     from src.api.routers.upload import upload_files
-    
+
     mock_file = mocker.MagicMock()
     mock_file.filename = ""
     mock_file.size = 100
-    
+
     result = await upload_files(user_id="u", files=[mock_file])
     assert result["files"] == [""]
