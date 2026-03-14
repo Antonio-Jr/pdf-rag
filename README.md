@@ -253,34 +253,34 @@ Once running:
 
 This project goes beyond a standard RAG demo by implementing engineering best practices required for production-grade AI systems:
 
-- **100% Code Coverage** — Every line of the backend logic is verified through a rigorous suite of unit and integration tests.
-- **Hermetic Testing** — All external dependencies (LLMs, Databases, API calls) are strictly mocked using `pytest-mock`, ensuring the test suite is fast, deterministic, and can run without any internet connection.
-- **Multi-Stage Docker Architecture** — Optimized build process with distinct stages for `base` dependencies, `tester` validation, and a slim `production` runtime.
-- **Type Safety & Linting** — Comprehensive type hinting and strict linting via `ruff`, integrated into the developer workflow.
-- **Structured AI Outputs** — Utilizes Pydantic schemas for guaranteed structured data extraction from LLMs.
+- **Reasonable Unit Test Coverage** — The core logic is verified through a suite of unit and integration tests to ensure system stability during development.
+- **Hermetic Testing Approach** — Used `pytest-mock` to isolate the logic from external dependencies (LLMs, Databases), ensuring the tests are fast and run locally.
+- **Experimental Multi-Stage Docker** — Explored build optimizations using distinct stages for `base`, `tester`, and `production`.
+- **Type Safety Focus** — Practiced using type hinting and `ruff` for consistent formatting and better readability.
+- **Structured Outputs** — Experimented with Pydantic schemas for structured data extraction from LLMs.
 
 ---
 
 ## 🛠️ Developer Experience (DX)
 
-The project includes a comprehensive `Makefile` to streamline development and automate repetitive tasks.
+The project includes a simple `Makefile` to automate basic development tasks as I explore the workflow.
 
 | Command | Action |
 |---------|--------|
-| `make install` | Full installation (uv sync + pre-commit setup) |
-| `make test` | Run the complete test suite locally with coverage report |
-| `make docker-test`| Run all tests inside a clean Docker `tester` stage |
-| `make run-api` | Start the FastAPI backend with hot-reload |
-| `make run-ui` | Start the Streamlit frontend with project-root context |
-| `make docker-up` | Spin up the entire production-ready stack in background |
-| `make docker-db-up`| Start **only** the database for local isolated development |
-| `make lint` | Run ruff check and format validation |
+| `make install` | Sync dependencies and setup the environment |
+| `make test` | Run unit tests with basic coverage reporting |
+| `make docker-test`| Run tests inside a clean Docker `tester` stage |
+| `make run-api` | Start the FastAPI backend locally |
+| `make run-ui` | Start the Streamlit frontend with local context |
+| `make docker-up` | Spin up the full stack in background |
+| `make docker-db-up`| Start **only** the database for local development |
+| `make lint` | Run code quality checks |
 
 ---
 
 ## 🧪 Testing & Quality Assurance
 
-Quality is not an afterthought. This project maintains a **100% test coverage** policy across the core `src` directory.
+As part of my learning journey, I focused on building a reliable testing foundation.
 
 ### Running Tests Locally
 ```bash
@@ -288,17 +288,16 @@ make test
 ```
 
 ### Running Tests in Docker
-To ensure a clean, isolated environment identical to CI/CD:
 ```bash
 make docker-test
 ```
 
-### Coverage Report Showcase
-The test suite validates:
-- **Agent Logic**: Graph routing, state transitions, and tool triggers.
-- **RAG Integrity**: Vector retrieval filters and ingestion pipeline edge cases.
-- **API Resilience**: Lifespan management, health checks, and error handling.
-- **Infrastructure**: Database initialization and checkpointer stability.
+### Purpose of Testing in this Lab
+The test suite was designed to validate:
+- **Agent Logic**: Basic graph routing and state transitions.
+- **Resilience**: Handling simulated API failures and edge cases.
+- **Integration**: Ensuring internal components communicate correctly.
+- **Stability**: Validating infrastructure initialization and state persistence.
 
 ---
 
